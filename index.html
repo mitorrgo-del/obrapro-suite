@@ -625,26 +625,16 @@
       </div>
 
       <!-- FORMULARIO OFICIAL DE PAYPAL (PAGO SEGURO) -->
-      <form id="paypal-form" action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank" class="space-y-4">
-        <input type="hidden" name="cmd" value="_xclick">
-        <!-- EMAIL RECEPTOR PAYPAL -->
-        <input type="hidden" name="business" id="paypal-business-email" value="mitorrgo@gmail.com">
-        <input type="hidden" name="item_name" value="ObraPro Suite - Licencia Vitalicia">
-        <input type="hidden" name="amount" value="39.00">
-        <input type="hidden" name="currency_code" value="EUR">
-        <input type="hidden" name="no_shipping" value="1">
-        <input type="hidden" name="return" value="https://mitorrgo-del.github.io/obrapro-suite/descarga.html">
-        <input type="hidden" name="cancel_return" value="https://mitorrgo-del.github.io/obrapro-suite/">
-
+      <form id="paypal-form" onsubmit="ejecutarPagoPaypal(event)" class="space-y-4">
         <div>
-          <label class="block text-xs font-semibold text-slate-300 mb-1">Tu Correo Electrónico (para enviarte la licencia):</label>
-          <input type="email" required name="custom" id="cliente-email" placeholder="tu-email@reformas.com" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-brand-500">
+          <label class="block text-xs font-semibold text-slate-300 mb-1">Tu Correo Electrónico (para enviarte la factura y acceso):</label>
+          <input type="email" required id="cliente-email" placeholder="tu-email@reformas.com" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-brand-500">
         </div>
 
         <div class="pt-2">
           <button type="submit" class="w-full py-3.5 bg-[#0070ba] hover:bg-[#005ea6] text-white font-extrabold rounded-xl transition flex items-center justify-center gap-2 shadow-lg shadow-blue-500/20">
             <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M7.076 21.337H2.47a.641.641 0 0 1-.633-.74L4.944 3.72a.78.78 0 0 1 .77-.655h6.634c3.42 0 5.86 1.417 5.617 5.228-.24 3.766-2.52 5.845-6.07 5.845h-2.12l-1.07 6.435a.78.78 0 0 1-.77.654l-.899.11z"/></svg>
-            <span>Pagar 39,00 € con PayPal o Tarjeta</span>
+            <span>Pagar 39,00 € con PayPal</span>
           </button>
         </div>
       </form>
@@ -706,7 +696,7 @@
     inDesvio.addEventListener('input', actualizarCalculadora);
     actualizarCalculadora();
 
-    // LÓGICA CHECKOUT
+    // LÓGICA CHECKOUT PAYPAL
     function abrirCheckout() {
       document.getElementById('modal-checkout').classList.remove('hidden');
     }
@@ -715,11 +705,20 @@
       document.getElementById('modal-checkout').classList.add('hidden');
     }
 
-    function procesarPago(e) {
+    function ejecutarPagoPaypal(e) {
       e.preventDefault();
       const email = document.getElementById('cliente-email').value;
-      // Simulación de pasarela de pago o redirección a Stripe/Descarga
-      window.location.href = `descarga.html?cliente=${encodeURIComponent(email)}`;
+      
+      // Enlace de cobro exacto de 39 EUR a tu cuenta de PayPal
+      const paypalUrl = "https://www.paypal.com/paypalme/trainingfullonline/39EUR";
+      
+      // Abrir PayPal en pestaña nueva para realizar el pago de 39€
+      window.open(paypalUrl, '_blank');
+
+      // Redirigir la ventana actual a la página de entrega y confirmación
+      setTimeout(() => {
+        window.location.href = `descarga.html?cliente=${encodeURIComponent(email)}`;
+      }, 1000);
     }
   </script>
 </body>
