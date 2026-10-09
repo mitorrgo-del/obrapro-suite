@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://mitorrgo-del.github.io/obrapro-suite/sitemap.xml
